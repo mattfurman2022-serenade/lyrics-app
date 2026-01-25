@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Your Personalized Lyrics</title>
+</head>
+
+<body>
+  <h1>Your Personalized Lyrics</h1>
+
+  <div id="status">Generating your song…</div>
+
+  <pre id="lyrics"></pre>
+
+  <script>
+    // Read form data from URL
+    const params = new URLSearchParams(window.location.search);
+
+    const data = {
+      person: params.get("person"),
+      memory: params.get("memory"),
+      love: params.get("love"),
+      message: params.get("message")
+    };
+
+    // IMPORTANT: we will change this URL later
+    fetch("https://example.workers.dev", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    })
+    .then(res => res.json())
+    .then(result => {
+      document.getElementById("status").innerText = "";
+      document.getElementById("lyrics").innerText = result.lyrics;
+    })
+    .catch(() => {
+      document.getElementById("status").innerText =
+        "Something went wrong. Please try again.";
+    });
+  </script>
+</body>
+</html>

@@ -1,43 +1,65 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Your Personalized Lyrics</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+    #spinner {
+      font-size: 18px;
+    }
+    #lyrics {
+      white-space: pre-wrap;
+      margin-top: 30px;
+      line-height: 1.6;
+    }
+  </style>
 </head>
-
 <body>
-  <h1>Your Personalized Lyrics</h1>
 
-  <div id="status">Generating your song…</div>
+<h1>Your Personalized Lyrics</h1>
+<div id="spinner">🎵 Generating your song…</div>
+<pre id="lyrics"></pre>
 
-  <pre id="lyrics"></pre>
-
-  <script>
-    // Read form data from URL
+<script>
+  async function loadLyrics() {
     const params = new URLSearchParams(window.location.search);
 
-    const data = {
-      person: params.get("person"),
+    const payload = {
+      name: params.get("name"),
       memory: params.get("memory"),
       love: params.get("love"),
       message: params.get("message")
     };
 
-    // IMPORTANT: we will change this URL later
-    fetch("https://example.workers.dev", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    })
-    .then(res => res.json())
-    .then(result => {
-      document.getElementById("status").innerText = "";
-      document.getElementById("lyrics").innerText = result.lyrics;
-    })
-    .catch(() => {
-      document.getElementById("status").innerText =
-        "Something went wrong. Please try again.";
-    });
-  </script>
+    try {
+      const response = await fetch(
+        "https://patient-hat-3eee.mattfurman-2022.workers.dev",
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(payload)
+        }
+      );
+
+      const text = await response.text();
+
+      document.getElementById("spinner").style.display = "none";
+      document.getElementById("lyrics").innerText = text;
+
+    } catch (err) {
+      document.getElementById("spinner").innerText = "Lyrics failed to load.";
+      console.error(err);
+    }
+  }
+
+  loadLyrics();
+</script>
+
 </body>
 </html>

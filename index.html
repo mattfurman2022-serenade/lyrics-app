@@ -1,35 +1,46 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>Create Your Song</title>
+  <style>
+    body {
+      background: #111;
+      color: #fff;
+      font-family: Arial, sans-serif;
+      padding: 40px;
+    }
+    input, textarea, button {
+      width: 100%;
+      margin-top: 10px;
+      padding: 10px;
+      font-size: 16px;
+    }
+    button {
+      margin-top: 20px;
+      cursor: pointer;
+    }
+  </style>
 </head>
-
 <body>
-  <h1>Create Your Personalized Song</h1>
 
-  <form action="results.html" method="GET">
-    <p>
-      Who is this song for?<br>
-      <input name="person" required>
-    </p>
+<h1>Create Your Personalized Song</h1>
 
-    <p>
-      Describe a special memory:<br>
-      <input name="memory" required>
-    </p>
+<form action="results.html" method="GET">
+  <label>Who is this song for?</label>
+  <input name="name" required />
 
-    <p>
-      What do you love most about them?<br>
-      <input name="love" required>
-    </p>
+  <label>Describe a special memory</label>
+  <textarea name="memory" required></textarea>
 
-    <p>
-      What message do you want the song to convey?<br>
-      <input name="message" required>
-    </p>
+  <label>What do you love most about them?</label>
+  <textarea name="love" required></textarea>
 
-    <button type="submit">Create My Song</button>
-  </form>
+  <label>What message should the song convey?</label>
+  <textarea name="message" required></textarea>
+
+  <button type="submit">Generate My Song</button>
+</form>
+
 </body>
 </html>

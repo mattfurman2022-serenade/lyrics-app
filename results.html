@@ -14,10 +14,18 @@
     const params = new URLSearchParams(window.location.search);
     const name = params.get("name");
 
-    fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name })
+    const response = await fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
+  method: "POST",
+  headers: {
+    "Content-Type": "application/json"
+  },
+  body: JSON.stringify({
+    name: formData.get("name"),
+    memory: formData.get("memory"),
+    love: formData.get("love"),
+    message: formData.get("message")
+  })
+});
     })
     .then(res => res.text())
     .then(text => {

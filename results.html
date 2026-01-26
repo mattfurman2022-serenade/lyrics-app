@@ -1,30 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Test</title>
+  <meta charset="UTF-8" />
+  <title>Your Personalized Lyrics</title>
 </head>
+
 <body>
+  <h1>Your Personalized Lyrics</h1>
 
-<h1>Your Personalized Lyrics</h1>
-<div id="status">Waiting…</div>
+  <div id="output">Loading…</div>
 
-<script>
-fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
-  method: "POST"
-})
-.then(res => res.text())
-.then(text => {
-  document.getElementById("status").innerText = text;
-})
-.catch(err => {
-  document.getElementById("status").innerText = "FETCH FAILED";
-  console.error(err);
-});
-</script>
+  <script>
+    const params = new URLSearchParams(window.location.search);
+    const name = params.get("name");
 
-</body>
-</html>
-
+    fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name })
+    })
+    .then(res => res.text())
+    .then(text => {
+      document.getElementById("output").innerText = text;
+    })
+    .catch(() => {
+      document.getElementById("output").innerText = "Failed to load";
+    });
+  </script>
 </body>
 </html>

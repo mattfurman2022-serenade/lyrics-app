@@ -1,59 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
   <meta charset="UTF-8">
-  <title>Your Personalized Lyrics</title>
-  <style>
-    body {
-      background: #111;
-      color: #fff;
-      font-family: Arial, sans-serif;
-      padding: 40px;
-    }
-    #spinner {
-      font-size: 18px;
-    }
-    #lyrics {
-      white-space: pre-wrap;
-      margin-top: 30px;
-      line-height: 1.6;
-    }
-  </style>
+  <title>Test</title>
 </head>
 <body>
 
 <h1>Your Personalized Lyrics</h1>
-<div id="spinner">🎵 Generating your song…</div>
-<pre id="lyrics"></pre>
+<div id="status">Waiting…</div>
 
 <script>
-async function loadLyrics() {
-  try {
-    const response = await fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          test: "hello"
-        })
-      }
-    );
-
-    const text = await response.text();
-
-    document.getElementById("spinner").style.display = "none";
-    document.getElementById("lyrics").innerText = text;
-
-  } catch (err) {
-    document.getElementById("spinner").innerText =
-      "Lyrics failed to load.";
-    console.error(err);
-  }
-}
-
-loadLyrics();
+fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
+  method: "POST"
+})
+.then(res => res.text())
+.then(text => {
+  document.getElementById("status").innerText = text;
+})
+.catch(err => {
+  document.getElementById("status").innerText = "FETCH FAILED";
+  console.error(err);
+});
 </script>
+
+</body>
+</html>
 
 </body>
 </html>

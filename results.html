@@ -29,9 +29,7 @@
 <script>
 async function loadLyrics() {
   try {
-    const response = await fetch(
-      "https://patient-hat-3eee.mattfurman-2022.workers.dev",
-      {
+    const response = await fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

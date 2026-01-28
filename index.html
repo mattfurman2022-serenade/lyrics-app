@@ -61,20 +61,28 @@
     <button type="submit">Generate Lyrics</button>
   </form>
 
-  <script>
-    document.getElementById("songForm").addEventListener("submit", function (e) {
-      e.preventDefault();
+ <script>
+  const form = document.getElementById("songForm");
 
-      const name = encodeURIComponent(
-        document.getElementById("name").value
-      );
-      const memory = encodeURIComponent(
-        document.getElementById("memory").value
-      );
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
 
-      window.location.href = `results.html?name=${name}&memory=${memory}`;
+    const name = document.getElementById("name").value;
+    const memory = document.getElementById("memory").value;
+
+    if (!name || !memory) {
+      alert("Please fill out all fields");
+      return;
+    }
+
+    const params = new URLSearchParams({
+      name,
+      memory,
     });
-  </script>
+
+    window.location.href = `results.html?${params.toString()}`;
+  });
+</script
 
 </body>
 </html>

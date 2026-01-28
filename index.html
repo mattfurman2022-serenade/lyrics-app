@@ -1,42 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Create Your Song</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <style>
     body {
-      background: #111;
-      color: #fff;
-      font-family: Arial, sans-serif;
+      background: #0f172a;
+      color: #e5e7eb;
+      font-family: system-ui, sans-serif;
       padding: 40px;
+    }
+    h1 {
+      margin-bottom: 20px;
+    }
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
     }
     input, textarea, button {
       width: 100%;
-      margin-top: 10px;
-      padding: 10px;
+      padding: 12px;
+      margin-top: 8px;
+      border-radius: 6px;
+      border: none;
       font-size: 16px;
     }
+    textarea {
+      height: 120px;
+    }
     button {
-      margin-top: 20px;
+      margin-top: 30px;
+      background: #6366f1;
+      color: white;
       cursor: pointer;
+    }
+    button:hover {
+      background: #4f46e5;
     }
   </style>
 </head>
+
 <body>
 
-<h1>Lyric Generator</h1>
+  <h1>Create Your Personalized Song</h1>
 
-<form action="results.html" method="GET">
-  <label>
-    Who is this for?
-    <br />
-    <input type="text" name="name" required />
-  </label>
+  <form id="songForm">
+    <label>
+      Who is this song for?
+      <input type="text" id="name" required />
+    </label>
 
-  <br /><br />
+    <label>
+      Describe a memory, feeling, or story
+      <textarea id="memory" required></textarea>
+    </label>
 
-  <button type="submit">Generate Lyrics</button>
-</form>
+    <button type="submit">Generate Lyrics</button>
+  </form>
+
+  <script>
+    document.getElementById("songForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const name = encodeURIComponent(
+        document.getElementById("name").value
+      );
+      const memory = encodeURIComponent(
+        document.getElementById("memory").value
+      );
+
+      window.location.href = `results.html?name=${name}&memory=${memory}`;
+    });
+  </script>
 
 </body>
 </html>

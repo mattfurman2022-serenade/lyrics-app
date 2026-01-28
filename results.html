@@ -3,43 +3,58 @@
 <head>
   <meta charset="UTF-8" />
   <title>Your Personalized Lyrics</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      max-width: 700px;
+      margin: auto;
+      line-height: 1.6;
+    }
+    #lyrics {
+      white-space: pre-wrap; /* THIS preserves line breaks */
+      margin-top: 20px;
+      font-size: 16px;
+    }
+  </style>
 </head>
-
 <body>
-  <h1>Your Personalized Lyrics</h1>
 
-  <div id="spinner">Loading...</div>
-  <pre id="lyrics"></pre>
+  <h1>Your Personalized Lyrics</h1>
+  <div id="lyrics">Loading lyrics…</div>
 
   <script>
-  async function loadLyrics() {
-    const spinner = document.getElementById("spinner");
-    const lyrics = document.getElementById("lyrics");
+    async function loadLyrics() {
+      try {
+        const response = await fetch(
+          "https://patient-hat-3eee.mattfurman-2022.workers.dev",
+          {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              name: "Test Name",
+              memory: "A moment that changed everything"
+            })
+          }
+        );
 
-    try {
-      const response = await fetch(
-        "https://patient-hat-3eee.mattfurman-2022.workers.dev",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            name: "TEST NAME"
-          })
+        const data = await response.json();
+
+        if (data.lyrics) {
+          document.getElementById("lyrics").textContent = data.lyrics;
+        } else {
+          document.getElementById("lyrics").textContent =
+            "Lyrics failed to load.";
         }
-      );
-
-      const text = await response.text();
-
-      spinner.style.display = "none";
-      lyrics.innerText = text;
-
-    } catch (err) {
-      spinner.innerText = "FAILED TO LOAD";
-      console.error(err);
+      } catch (err) {
+        document.getElementById("lyrics").textContent =
+          "Lyrics failed to load.";
+        console.error(err);
+      }
     }
-  }
 
-  loadLyrics();
-</script>
+    loadLyrics();
+  </script>
+
 </body>
 </html>

@@ -1,91 +1,78 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <title>Your Personalized Lyrics</title>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Your Personalized Lyrics</title>
 
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #0f172a;
-      color: #e5e7eb;
-      padding: 40px;
-    }
-
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-
-    #status {
-      text-align: center;
-      font-style: italic;
-      margin-bottom: 20px;
-    }
-
-    #lyrics {
-      white-space: pre-wrap;
-      background: #020617;
-      padding: 25px;
-      border-radius: 8px;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-  </style>
-</head>
-
-<body>
-
-  <h1>Your Personalized Lyrics</h1>
-  <div id="status">Loading lyrics…</div>
-  <div id="lyrics"></div>
-
-  <script>
-    async function loadLyrics() {
-      const statusEl = document.getElementById("status");
-      const lyricsEl = document.getElementById("lyrics");
-
-      // CHANGE THIS IF YOUR WORKER URL EVER CHANGES
-      const WORKER_URL = "https://patient-hat-3eee.mattfurman-2022.workers.dev";
-
-      // TEMPORARY TEST DATA
-      // (Later this will come from your form)
-      const payload = {
-        name: "Test Name",
-        memory: "We danced in the kitchen at midnight and laughed until sunrise"
-      };
-
-      try {
-        const response = await fetch(WORKER_URL, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify(payload)
-        });
-
-        if (!response.ok) {
-          throw new Error("Server error");
-        }
-
-        const data = await response.json();
-
-        if (!data.lyrics) {
-          throw new Error("No lyrics returned");
-        }
-
-        statusEl.style.display = "none";
-        lyricsEl.textContent = data.lyrics;
-
-      } catch (err) {
-        statusEl.textContent = "Lyrics failed to load";
-        console.error(err);
+    <style>
+      body {
+        background: #0f172a;
+        color: #e5e7eb;
+        font-family: Arial, Helvetica, sans-serif;
+        padding: 40px;
       }
-    }
 
-    loadLyrics();
-  </script>
+      h1 {
+        text-align: center;
+        margin-bottom: 30px;
+      }
 
-</body>
+      #lyrics {
+        white-space: pre-wrap;
+        line-height: 1.6;
+        font-size: 18px;
+        max-width: 700px;
+        margin: auto;
+      }
+
+      #status {
+        text-align: center;
+        margin-top: 20px;
+        color: #9ca3af;
+      }
+    </style>
+  </head>
+
+  <body>
+    <h1>Your Personalized Lyrics</h1>
+
+    <div id="status">Generating your song…</div>
+    <div id="lyrics"></div>
+
+    <script>
+      // 1️⃣ READ VALUES FROM URL
+      const params = new URLSearchParams(window.location.search);
+      const name = params.get("name");
+      const memory = params.get("memory");
+
+      if (!name || !memory) {
+        document.getElementById("status").textContent =
+          "Missing song details.";
+        throw new Error("Missing URL parameters");
+      }
+
+      // 2️⃣ CALL CLOUDFLARE WORKER
+      fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          name: name,
+          memory: memory,
+        }),
+      })
+        .then((res) => res.json())
+        .then((data) => {
+          document.getElementById("status").remove();
+          document.getElementById("lyrics").textContent =
+            data.lyrics || "Lyrics could not be generated.";
+        })
+        .catch((err) => {
+          document.getElementById("status").textContent =
+            "Lyrics failed to load.";
+          console.error(err);
+        });
+    </script>
+  </body>
 </html>

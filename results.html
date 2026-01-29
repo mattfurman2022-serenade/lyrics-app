@@ -42,8 +42,12 @@
     <script>
       // 1️⃣ READ VALUES FROM URL
       const params = new URLSearchParams(window.location.search);
+
+      const songType = params.get("songType");
       const name = params.get("name");
       const memory = params.get("memory");
+      const relationship = params.get("relationship");
+      const miss = params.get("miss");
 
       if (!name || !memory) {
         document.getElementById("status").textContent =
@@ -58,8 +62,11 @@
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: name,
-          memory: memory,
+          songType,
+          name,
+          memory,
+          relationship,
+          miss
         }),
       })
         .then((res) => res.json())

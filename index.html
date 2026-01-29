@@ -93,6 +93,17 @@
     window.location.href = `results.html?${params.toString()}`;
   });
 </script
+<script>
+  const songTypeSelect = document.getElementById("songType");
+  const tributeFields = document.getElementById("tributeFields");
 
+  songTypeSelect.addEventListener("change", () => {
+    if (songTypeSelect.value === "tribute") {
+      tributeFields.style.display = "block";
+    } else {
+      tributeFields.style.display = "none";
+    }
+  });
+</script>
 </body>
 </html>

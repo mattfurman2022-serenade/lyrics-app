@@ -1,112 +1,40 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <title>Personalized Song Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
+  <meta charset="UTF-8">
+  <title>Choose Song Type</title>
   <style>
     body {
-      background: #0f172a;
-      color: #e5e7eb;
-      font-family: system-ui, sans-serif;
-      padding: 40px;
-    }
-
-    h1 {
-      margin-bottom: 20px;
-    }
-
-    label {
-      display: block;
-      margin-top: 15px;
-      margin-bottom: 5px;
-      font-weight: 600;
-    }
-
-    input, textarea, select, button {
-      width: 100%;
-      padding: 10px;
-      border-radius: 6px;
-      border: none;
-      font-size: 16px;
-    }
-
-    textarea {
-      min-height: 80px;
-    }
-
-    button {
-      margin-top: 25px;
-      background: #6366f1;
+      background: #111;
       color: white;
-      cursor: pointer;
-      font-weight: bold;
+      font-family: Arial, sans-serif;
+      text-align: center;
+      padding-top: 80px;
     }
 
-    button:hover {
-      background: #4f46e5;
+    a {
+      display: block;
+      margin: 30px auto;
+      width: 300px;
+      padding: 20px;
+      background: #6c5ce7;
+      color: white;
+      text-decoration: none;
+      font-size: 20px;
+      border-radius: 10px;
+    }
+
+    a:hover {
+      background: #5a4cd6;
     }
   </style>
 </head>
-
 <body>
-  <h1>🎵 Personalized Song Generator</h1>
 
-  <form id="songForm">
-    <!-- SONG TYPE -->
-    <label for="songType">Song Type</label>
-    <select id="songType" name="songType">
-      <option value="love">Love Song</option>
-      <option value="tribute">Tribute Song</option>
-    </select>
+<h1>🎵 Personalized Song Generator</h1>
 
-    <!-- COMMON FIELDS -->
-    <label for="name">Who is this song for?</label>
-    <input id="name" name="name" placeholder="Name" required />
+<a href="love.html">❤️ Love Song</a>
+<a href="tribute.html">🕊️ Tribute Song</a>
 
-    <label for="memory">Special memory or message</label>
-    <textarea id="memory" name="memory" placeholder="Describe a meaningful moment..."></textarea>
-
-    <!-- TRIBUTE-ONLY FIELDS -->
-    <div id="tributeFields" style="display: none;">
-      <label for="relationship">Who were they to you?</label>
-      <input id="relationship" name="relationship" placeholder="Father, friend, mentor..." />
-
-      <label for="miss">What do you miss most about them?</label>
-      <textarea id="miss" name="miss" placeholder="What do you miss most?"></textarea>
-    </div>
-
-    <button type="submit">Generate Lyrics</button>
-  </form>
-
-  <!-- ✅ JAVASCRIPT (THIS WAS YOUR BUG) -->
-  <script>
-    const songTypeSelect = document.getElementById("songType");
-    const tributeFields = document.getElementById("tributeFields");
-    const form = document.getElementById("songForm");
-
-    songTypeSelect.addEventListener("change", () => {
-      if (songTypeSelect.value === "tribute") {
-        tributeFields.style.display = "block";
-      } else {
-        tributeFields.style.display = "none";
-      }
-    });
-
-    form.addEventListener("submit", (e) => {
-      e.preventDefault();
-
-      const params = new URLSearchParams({
-        songType: songTypeSelect.value,
-        name: document.getElementById("name").value,
-        memory: document.getElementById("memory").value,
-        relationship: document.getElementById("relationship").value,
-        miss: document.getElementById("miss").value
-      });
-
-      window.location.href = `results.html?${params.toString()}`;
-    });
-  </script>
 </body>
 </html>

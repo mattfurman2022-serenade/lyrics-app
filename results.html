@@ -16,105 +16,68 @@
 
     h1 {
       text-align: center;
-      margin-bottom: 30px;
     }
 
     #status {
       text-align: center;
-      margin-bottom: 20px;
-      color: #aaa;
+      margin-top: 30px;
+      font-style: italic;
     }
 
     pre {
       white-space: pre-wrap;
       background: #1a1a1a;
-      padding: 25px;
-      border-radius: 10px;
-      font-size: 16px;
+      padding: 20px;
+      border-radius: 8px;
+      margin-top: 30px;
       line-height: 1.6;
+    }
+
+    .error {
+      color: #ff6b6b;
+      white-space: pre-wrap;
+      margin-top: 30px;
     }
   </style>
 </head>
 <body>
 
 <h1>Your Personalized Lyrics</h1>
+
 <div id="status">Generating your song…</div>
-<pre id="lyrics"></pre>
+<pre id="lyrics" style="display:none;"></pre>
+<div id="error" class="error" style="display:none;"></div>
 
 <script>
-(async () => {
-  const statusEl = document.getElementById("status");
-  const lyricsEl = document.getElementById("lyrics");
-
-  // =========================
-  // 1. READ URL PARAMETERS
-  // =========================
   const params = new URLSearchParams(window.location.search);
-  const songType = params.get("songType");
-  const name = params.get("name");
+  const payload = Object.fromEntries(params.entries());
 
-  if (!songType || !name) {
-    statusEl.textContent = "Missing song information.";
-    return;
-  }
+  fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  })
+    .then(res => res.json())
+    .then(data => {
+      document.getElementById("status").style.display = "none";
 
-  // =========================
-  // 2. BUILD PAYLOAD
-  // =========================
-  let payload = {
-    songType,
-    name,
-  };
-
-  if (songType === "love") {
-    const memory = params.get("memory");
-    if (!memory) {
-      statusEl.textContent = "Missing love song details.";
-      return;
-    }
-    payload.memory = memory;
-  }
-
-  if (songType === "tribute") {
-    const relationship = params.get("relationship");
-    const legacy = params.get("legacy");
-
-    if (!relationship || !legacy) {
-      statusEl.textContent = "Missing tribute song details.";
-      return;
-    }
-
-    payload.relationship = relationship;
-    payload.legacy = legacy;
-  }
-
-  // =========================
-  // 3. SEND TO CLOUDFLARE
-  // =========================
-  try {
-    const response = await fetch(
-      "https://patient-hat-3eee.mattfurman-2022.workers.dev",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
+      if (data.lyrics) {
+        const lyricsEl = document.getElementById("lyrics");
+        lyricsEl.textContent = data.lyrics;
+        lyricsEl.style.display = "block";
+      } else {
+        const errorEl = document.getElementById("error");
+        errorEl.textContent =
+          "ERROR FROM SERVER:\n\n" + JSON.stringify(data, null, 2);
+        errorEl.style.display = "block";
       }
-    );
-
-    const result = await response.json();
-
-    if (!result.lyrics) {
-      statusEl.textContent = "Lyrics could not be generated.";
-      return;
-    }
-
-    statusEl.textContent = "";
-    lyricsEl.textContent = result.lyrics;
-
-  } catch (err) {
-    statusEl.textContent = "Lyrics failed to load.";
-  }
-})();
+    })
+    .catch(err => {
+      document.getElementById("status").style.display = "none";
+      const errorEl = document.getElementById("error");
+      errorEl.textContent = "FETCH ERROR:\n\n" + err.toString();
+      errorEl.style.display = "block";
+    });
 </script>
 
 </body>

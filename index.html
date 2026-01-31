@@ -2,39 +2,163 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Choose Song Type</title>
+  <title>Create Your Song</title>
+
   <style>
     body {
-      background: #111;
-      color: white;
+      background: #0f0f0f;
+      color: #f5f5f5;
       font-family: Arial, sans-serif;
-      text-align: center;
-      padding-top: 80px;
-    }
-
-    a {
-      display: block;
-      margin: 30px auto;
-      width: 300px;
+      max-width: 800px;
+      margin: 40px auto;
       padding: 20px;
-      background: #6c5ce7;
-      color: white;
-      text-decoration: none;
-      font-size: 20px;
-      border-radius: 10px;
     }
 
-    a:hover {
-      background: #5a4cd6;
+    h1 {
+      text-align: center;
+    }
+
+    label {
+      display: block;
+      margin-top: 20px;
+      font-weight: bold;
+    }
+
+    input, textarea, select, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      font-size: 16px;
+      border-radius: 6px;
+      border: none;
+    }
+
+    textarea {
+      resize: vertical;
+    }
+
+    .radio-group {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    .radio-group label {
+      background: #1a1a1a;
+      padding: 10px 15px;
+      border-radius: 20px;
+      cursor: pointer;
+    }
+
+    .radio-group input {
+      display: none;
+    }
+
+    .radio-group input:checked + span {
+      color: #0f0f0f;
+      background: #f5f5f5;
+      padding: 10px 15px;
+      border-radius: 20px;
+    }
+
+    button {
+      margin-top: 30px;
+      background: #f5f5f5;
+      color: #0f0f0f;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    .hidden {
+      display: none;
     }
   </style>
 </head>
 <body>
 
-<h1>🎵 Personalized Song Generator</h1>
+<h1>Create Your Song</h1>
 
-<a href="love.html">❤️ Love Song</a>
-<a href="tribute.html">🕊️ Tribute Song</a>
+<form action="results.html" method="GET">
+
+  <!-- SONG TYPE -->
+  <label>Song Type</label>
+  <select name="songType" id="songType">
+    <option value="love">Love Song</option>
+    <option value="tribute">Tribute Song</option>
+  </select>
+
+  <!-- NAME -->
+  <label>Who is this song for?</label>
+  <input name="name" required>
+
+  <!-- LOVE FIELDS -->
+  <div id="loveFields">
+
+    <label>Type of relationship</label>
+    <div class="radio-group">
+      <label>
+        <input type="radio" name="relationshipType" value="Partner" required>
+        <span>Partner</span>
+      </label>
+      <label>
+        <input type="radio" name="relationshipType" value="Crush">
+        <span>Crush</span>
+      </label>
+      <label>
+        <input type="radio" name="relationshipType" value="Spouse">
+        <span>Spouse</span>
+      </label>
+      <label>
+        <input type="radio" name="relationshipType" value="Soulmate">
+        <span>Soulmate</span>
+      </label>
+      <label>
+        <input type="radio" name="relationshipType" value="Secret Love">
+        <span>Secret Love</span>
+      </label>
+    </div>
+
+    <label>A special memory you share</label>
+    <textarea name="memory" rows="3"></textarea>
+
+    <label>What do you love most about them?</label>
+    <textarea name="traits" rows="3"></textarea>
+
+    <label>What message should this song convey?</label>
+    <textarea name="message" rows="3"></textarea>
+
+  </div>
+
+  <!-- TRIBUTE FIELDS -->
+  <div id="tributeFields" class="hidden">
+
+    <label>Your relationship to them</label>
+    <input name="relationship">
+
+    <label>What legacy or impact did they leave?</label>
+    <textarea name="legacy" rows="3"></textarea>
+
+  </div>
+
+  <button type="submit">Generate Lyrics</button>
+</form>
+
+<script>
+  const songType = document.getElementById("songType");
+  const loveFields = document.getElementById("loveFields");
+  const tributeFields = document.getElementById("tributeFields");
+
+  songType.addEventListener("change", () => {
+    if (songType.value === "tribute") {
+      loveFields.classList.add("hidden");
+      tributeFields.classList.remove("hidden");
+    } else {
+      loveFields.classList.remove("hidden");
+      tributeFields.classList.add("hidden");
+    }
+  });
+</script>
 
 </body>
 </html>

@@ -73,13 +73,19 @@
     .hidden {
       display: none;
     }
+
+    .error {
+      color: #ff6b6b;
+      margin-top: 20px;
+      text-align: center;
+    }
   </style>
 </head>
 <body>
 
 <h1>Create Your Song</h1>
 
-<form action="results.html" method="GET">
+<form id="songForm" action="results.html" method="GET">
 
   <!-- SONG TYPE -->
   <label>Song Type</label>
@@ -90,14 +96,14 @@
 
   <!-- NAME -->
   <label>Who is this song for?</label>
-  <input name="name" required>
+  <input name="name" id="name">
 
   <!-- LOVE SONG FIELDS -->
   <div id="loveFields">
 
     <label>Type of relationship</label>
     <div class="radio-group">
-      <label><input type="radio" name="relationshipType" value="Partner" required><span>Partner</span></label>
+      <label><input type="radio" name="relationshipType" value="Partner"><span>Partner</span></label>
       <label><input type="radio" name="relationshipType" value="Crush"><span>Crush</span></label>
       <label><input type="radio" name="relationshipType" value="Spouse"><span>Spouse</span></label>
       <label><input type="radio" name="relationshipType" value="Soulmate"><span>Soulmate</span></label>
@@ -129,6 +135,7 @@
 
     <label>Overall tone of the tribute</label>
     <select name="tributeTone">
+      <option value="">Select one</option>
       <option value="Celebratory">Celebratory</option>
       <option value="Reflective">Reflective</option>
       <option value="Grieving">Grieving</option>
@@ -139,20 +146,67 @@
   </div>
 
   <button type="submit">Generate Lyrics</button>
+  <div id="error" class="error"></div>
 </form>
 
 <script>
   const songType = document.getElementById("songType");
   const loveFields = document.getElementById("loveFields");
   const tributeFields = document.getElementById("tributeFields");
+  const form = document.getElementById("songForm");
+  const errorEl = document.getElementById("error");
 
   songType.addEventListener("change", () => {
+    errorEl.textContent = "";
     if (songType.value === "tribute") {
       loveFields.classList.add("hidden");
       tributeFields.classList.remove("hidden");
     } else {
       loveFields.classList.remove("hidden");
       tributeFields.classList.add("hidden");
+    }
+  });
+
+  form.addEventListener("submit", (e) => {
+    errorEl.textContent = "";
+
+    const type = songType.value;
+    const name = document.getElementById("name").value.trim();
+
+    if (!name) {
+      e.preventDefault();
+      errorEl.textContent = "Please enter a name.";
+      return;
+    }
+
+    if (type === "love") {
+      const relationshipChecked = document.querySelector(
+        'input[name="relationshipType"]:checked'
+      );
+
+      if (
+        !relationshipChecked ||
+        !form.memory.value.trim() ||
+        !form.traits.value.trim() ||
+        !form.message.value.trim()
+      ) {
+        e.preventDefault();
+        errorEl.textContent =
+          "Please complete all Love song fields.";
+      }
+    }
+
+    if (type === "tribute") {
+      if (
+        !form.relationship.value.trim() ||
+        !form.legacy.value.trim() ||
+        !form.tributeMemory.value.trim() ||
+        !form.tributeTone.value
+      ) {
+        e.preventDefault();
+        errorEl.textContent =
+          "Please complete all Tribute song fields.";
+      }
     }
   });
 </script>

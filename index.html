@@ -56,8 +56,8 @@
     }
 
     .radio-group input:checked + span {
-      color: #0f0f0f;
       background: #f5f5f5;
+      color: #0f0f0f;
       padding: 10px 15px;
       border-radius: 20px;
     }
@@ -92,52 +92,49 @@
   <label>Who is this song for?</label>
   <input name="name" required>
 
-  <!-- LOVE FIELDS -->
+  <!-- LOVE SONG FIELDS -->
   <div id="loveFields">
 
     <label>Type of relationship</label>
     <div class="radio-group">
-      <label>
-        <input type="radio" name="relationshipType" value="Partner" required>
-        <span>Partner</span>
-      </label>
-      <label>
-        <input type="radio" name="relationshipType" value="Crush">
-        <span>Crush</span>
-      </label>
-      <label>
-        <input type="radio" name="relationshipType" value="Spouse">
-        <span>Spouse</span>
-      </label>
-      <label>
-        <input type="radio" name="relationshipType" value="Soulmate">
-        <span>Soulmate</span>
-      </label>
-      <label>
-        <input type="radio" name="relationshipType" value="Secret Love">
-        <span>Secret Love</span>
-      </label>
+      <label><input type="radio" name="relationshipType" value="Partner" required><span>Partner</span></label>
+      <label><input type="radio" name="relationshipType" value="Crush"><span>Crush</span></label>
+      <label><input type="radio" name="relationshipType" value="Spouse"><span>Spouse</span></label>
+      <label><input type="radio" name="relationshipType" value="Soulmate"><span>Soulmate</span></label>
+      <label><input type="radio" name="relationshipType" value="Secret Love"><span>Secret Love</span></label>
     </div>
 
     <label>A special memory you share</label>
-    <textarea name="memory" rows="3"></textarea>
+    <textarea name="memory"></textarea>
 
     <label>What do you love most about them?</label>
-    <textarea name="traits" rows="3"></textarea>
+    <textarea name="traits"></textarea>
 
     <label>What message should this song convey?</label>
-    <textarea name="message" rows="3"></textarea>
+    <textarea name="message"></textarea>
 
   </div>
 
-  <!-- TRIBUTE FIELDS -->
+  <!-- TRIBUTE SONG FIELDS -->
   <div id="tributeFields" class="hidden">
 
     <label>Your relationship to them</label>
     <input name="relationship">
 
-    <label>What legacy or impact did they leave?</label>
-    <textarea name="legacy" rows="3"></textarea>
+    <label>What are they remembered for?</label>
+    <textarea name="legacy"></textarea>
+
+    <label>A meaningful memory or moment</label>
+    <textarea name="tributeMemory"></textarea>
+
+    <label>Overall tone of the tribute</label>
+    <select name="tributeTone">
+      <option value="Celebratory">Celebratory</option>
+      <option value="Reflective">Reflective</option>
+      <option value="Grieving">Grieving</option>
+      <option value="Thankful">Thankful</option>
+      <option value="Uplifting">Uplifting</option>
+    </select>
 
   </div>
 

@@ -42,19 +42,13 @@
     }
 
     .hidden { display: none; }
-
-    .error {
-      color: #ff6b6b;
-      margin-top: 20px;
-      text-align: center;
-    }
   </style>
 </head>
 <body>
 
 <h1>Create Your Song</h1>
 
-<form id="songForm" action="results.html" method="GET">
+<form action="results.html" method="GET">
 
   <!-- SONG TYPE -->
   <label>Song Type</label>
@@ -67,16 +61,19 @@
 
   <!-- NAME -->
   <label>Who is this song for?</label>
-  <input name="name" id="name">
+  <input name="name" required>
 
   <!-- LOVE -->
   <div id="loveFields">
     <label>Type of relationship</label>
     <input name="relationshipType">
+
     <label>A special memory you share</label>
     <textarea name="memory"></textarea>
+
     <label>What do you love most about them?</label>
     <textarea name="traits"></textarea>
+
     <label>What message should this song convey?</label>
     <textarea name="message"></textarea>
   </div>
@@ -85,10 +82,13 @@
   <div id="tributeFields" class="hidden">
     <label>Your relationship to them</label>
     <input name="relationship">
+
     <label>What are they remembered for?</label>
     <textarea name="legacy"></textarea>
+
     <label>A meaningful memory or moment</label>
     <textarea name="tributeMemory"></textarea>
+
     <label>Overall tone</label>
     <select name="tributeTone">
       <option value="">Select one</option>
@@ -104,8 +104,10 @@
   <div id="celebrationFields" class="hidden">
     <label>What are we celebrating?</label>
     <textarea name="celebrationReason"></textarea>
+
     <label>Why is this meaningful?</label>
     <textarea name="celebrationMeaning"></textarea>
+
     <label>Tone of the celebration</label>
     <select name="celebrationTone">
       <option value="">Select one</option>
@@ -115,13 +117,14 @@
       <option>High-energy</option>
       <option>Grateful</option>
     </select>
+
     <label>Message for the future</label>
     <textarea name="celebrationMessage"></textarea>
   </div>
 
   <!-- BIRTHDAY -->
   <div id="birthdayFields" class="hidden">
-    <label>How old are they (or what milestone)?</label>
+    <label>Age or milestone</label>
     <input name="birthdayAge">
 
     <label>What makes them special?</label>
@@ -145,11 +148,11 @@
   </div>
 
   <button type="submit">Generate Lyrics</button>
-  <div id="error" class="error"></div>
 </form>
 
 <script>
   const songType = document.getElementById("songType");
+
   const sections = {
     love: document.getElementById("loveFields"),
     tribute: document.getElementById("tributeFields"),
@@ -157,10 +160,13 @@
     birthday: document.getElementById("birthdayFields"),
   };
 
-  songType.addEventListener("change", () => {
+  function updateFields() {
     Object.values(sections).forEach(s => s.classList.add("hidden"));
     sections[songType.value].classList.remove("hidden");
-  });
+  }
+
+  songType.addEventListener("change", updateFields);
+  updateFields(); // initialize on load
 </script>
 
 </body>

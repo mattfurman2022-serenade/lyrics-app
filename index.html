@@ -14,9 +14,7 @@
       padding: 20px;
     }
 
-    h1 {
-      text-align: center;
-    }
+    h1 { text-align: center; }
 
     label {
       display: block;
@@ -33,34 +31,7 @@
       border: none;
     }
 
-    textarea {
-      resize: vertical;
-    }
-
-    .radio-group {
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 10px;
-    }
-
-    .radio-group label {
-      background: #1a1a1a;
-      padding: 10px 15px;
-      border-radius: 20px;
-      cursor: pointer;
-    }
-
-    .radio-group input {
-      display: none;
-    }
-
-    .radio-group input:checked + span {
-      background: #f5f5f5;
-      color: #0f0f0f;
-      padding: 10px 15px;
-      border-radius: 20px;
-    }
+    textarea { resize: vertical; }
 
     button {
       margin-top: 30px;
@@ -70,9 +41,7 @@
       font-weight: bold;
     }
 
-    .hidden {
-      display: none;
-    }
+    .hidden { display: none; }
 
     .error {
       color: #ff6b6b;
@@ -92,57 +61,64 @@
   <select name="songType" id="songType">
     <option value="love">Love Song</option>
     <option value="tribute">Tribute Song</option>
+    <option value="celebration">Celebration Song</option>
   </select>
 
   <!-- NAME -->
   <label>Who is this song for?</label>
   <input name="name" id="name">
 
-  <!-- LOVE SONG FIELDS -->
+  <!-- LOVE -->
   <div id="loveFields">
-
     <label>Type of relationship</label>
-    <div class="radio-group">
-      <label><input type="radio" name="relationshipType" value="Partner"><span>Partner</span></label>
-      <label><input type="radio" name="relationshipType" value="Crush"><span>Crush</span></label>
-      <label><input type="radio" name="relationshipType" value="Spouse"><span>Spouse</span></label>
-      <label><input type="radio" name="relationshipType" value="Soulmate"><span>Soulmate</span></label>
-      <label><input type="radio" name="relationshipType" value="Secret Love"><span>Secret Love</span></label>
-    </div>
-
+    <input name="relationshipType">
     <label>A special memory you share</label>
     <textarea name="memory"></textarea>
-
     <label>What do you love most about them?</label>
     <textarea name="traits"></textarea>
-
     <label>What message should this song convey?</label>
     <textarea name="message"></textarea>
-
   </div>
 
-  <!-- TRIBUTE SONG FIELDS -->
+  <!-- TRIBUTE -->
   <div id="tributeFields" class="hidden">
-
     <label>Your relationship to them</label>
     <input name="relationship">
-
     <label>What are they remembered for?</label>
     <textarea name="legacy"></textarea>
-
     <label>A meaningful memory or moment</label>
     <textarea name="tributeMemory"></textarea>
-
-    <label>Overall tone of the tribute</label>
+    <label>Overall tone</label>
     <select name="tributeTone">
       <option value="">Select one</option>
-      <option value="Celebratory">Celebratory</option>
-      <option value="Reflective">Reflective</option>
-      <option value="Grieving">Grieving</option>
-      <option value="Thankful">Thankful</option>
-      <option value="Uplifting">Uplifting</option>
+      <option>Celebratory</option>
+      <option>Reflective</option>
+      <option>Grieving</option>
+      <option>Thankful</option>
+      <option>Uplifting</option>
+    </select>
+  </div>
+
+  <!-- CELEBRATION -->
+  <div id="celebrationFields" class="hidden">
+    <label>What are we celebrating?</label>
+    <textarea name="celebrationReason"></textarea>
+
+    <label>Why is this meaningful?</label>
+    <textarea name="celebrationMeaning"></textarea>
+
+    <label>Tone of the celebration</label>
+    <select name="celebrationTone">
+      <option value="">Select one</option>
+      <option>Fun</option>
+      <option>Proud</option>
+      <option>Emotional</option>
+      <option>High-energy</option>
+      <option>Grateful</option>
     </select>
 
+    <label>Message for the future</label>
+    <textarea name="celebrationMessage"></textarea>
   </div>
 
   <button type="submit">Generate Lyrics</button>
@@ -151,63 +127,18 @@
 
 <script>
   const songType = document.getElementById("songType");
-  const loveFields = document.getElementById("loveFields");
-  const tributeFields = document.getElementById("tributeFields");
-  const form = document.getElementById("songForm");
-  const errorEl = document.getElementById("error");
+  const love = document.getElementById("loveFields");
+  const tribute = document.getElementById("tributeFields");
+  const celebration = document.getElementById("celebrationFields");
 
   songType.addEventListener("change", () => {
-    errorEl.textContent = "";
-    if (songType.value === "tribute") {
-      loveFields.classList.add("hidden");
-      tributeFields.classList.remove("hidden");
-    } else {
-      loveFields.classList.remove("hidden");
-      tributeFields.classList.add("hidden");
-    }
-  });
+    love.classList.add("hidden");
+    tribute.classList.add("hidden");
+    celebration.classList.add("hidden");
 
-  form.addEventListener("submit", (e) => {
-    errorEl.textContent = "";
-
-    const type = songType.value;
-    const name = document.getElementById("name").value.trim();
-
-    if (!name) {
-      e.preventDefault();
-      errorEl.textContent = "Please enter a name.";
-      return;
-    }
-
-    if (type === "love") {
-      const relationshipChecked = document.querySelector(
-        'input[name="relationshipType"]:checked'
-      );
-
-      if (
-        !relationshipChecked ||
-        !form.memory.value.trim() ||
-        !form.traits.value.trim() ||
-        !form.message.value.trim()
-      ) {
-        e.preventDefault();
-        errorEl.textContent =
-          "Please complete all Love song fields.";
-      }
-    }
-
-    if (type === "tribute") {
-      if (
-        !form.relationship.value.trim() ||
-        !form.legacy.value.trim() ||
-        !form.tributeMemory.value.trim() ||
-        !form.tributeTone.value
-      ) {
-        e.preventDefault();
-        errorEl.textContent =
-          "Please complete all Tribute song fields.";
-      }
-    }
+    if (songType.value === "love") love.classList.remove("hidden");
+    if (songType.value === "tribute") tribute.classList.remove("hidden");
+    if (songType.value === "celebration") celebration.classList.remove("hidden");
   });
 </script>
 

@@ -62,6 +62,7 @@
     <option value="love">Love Song</option>
     <option value="tribute">Tribute Song</option>
     <option value="celebration">Celebration Song</option>
+    <option value="birthday">Birthday Song</option>
   </select>
 
   <!-- NAME -->
@@ -103,10 +104,8 @@
   <div id="celebrationFields" class="hidden">
     <label>What are we celebrating?</label>
     <textarea name="celebrationReason"></textarea>
-
     <label>Why is this meaningful?</label>
     <textarea name="celebrationMeaning"></textarea>
-
     <label>Tone of the celebration</label>
     <select name="celebrationTone">
       <option value="">Select one</option>
@@ -116,9 +115,33 @@
       <option>High-energy</option>
       <option>Grateful</option>
     </select>
-
     <label>Message for the future</label>
     <textarea name="celebrationMessage"></textarea>
+  </div>
+
+  <!-- BIRTHDAY -->
+  <div id="birthdayFields" class="hidden">
+    <label>How old are they (or what milestone)?</label>
+    <input name="birthdayAge">
+
+    <label>What makes them special?</label>
+    <textarea name="birthdayTraits"></textarea>
+
+    <label>A favorite shared memory</label>
+    <textarea name="birthdayMemory"></textarea>
+
+    <label>Birthday song tone</label>
+    <select name="birthdayTone">
+      <option value="">Select one</option>
+      <option>Fun</option>
+      <option>Sentimental</option>
+      <option>Playful</option>
+      <option>Emotional</option>
+      <option>Big Celebration</option>
+    </select>
+
+    <label>Your wish for their year ahead</label>
+    <textarea name="birthdayWish"></textarea>
   </div>
 
   <button type="submit">Generate Lyrics</button>
@@ -127,18 +150,16 @@
 
 <script>
   const songType = document.getElementById("songType");
-  const love = document.getElementById("loveFields");
-  const tribute = document.getElementById("tributeFields");
-  const celebration = document.getElementById("celebrationFields");
+  const sections = {
+    love: document.getElementById("loveFields"),
+    tribute: document.getElementById("tributeFields"),
+    celebration: document.getElementById("celebrationFields"),
+    birthday: document.getElementById("birthdayFields"),
+  };
 
   songType.addEventListener("change", () => {
-    love.classList.add("hidden");
-    tribute.classList.add("hidden");
-    celebration.classList.add("hidden");
-
-    if (songType.value === "love") love.classList.remove("hidden");
-    if (songType.value === "tribute") tribute.classList.remove("hidden");
-    if (songType.value === "celebration") celebration.classList.remove("hidden");
+    Object.values(sections).forEach(s => s.classList.add("hidden"));
+    sections[songType.value].classList.remove("hidden");
   });
 </script>
 

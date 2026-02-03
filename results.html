@@ -1,84 +1,84 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>Your Personalized Lyrics</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     body {
-      background: #0f0f0f;
-      color: #f5f5f5;
+      background: #020617;
+      color: #e5e7eb;
       font-family: Arial, sans-serif;
-      max-width: 900px;
-      margin: 40px auto;
-      padding: 20px;
+      padding: 40px;
     }
 
     h1 {
-      text-align: center;
-    }
-
-    #status {
-      text-align: center;
-      margin-top: 30px;
-      font-style: italic;
+      margin-bottom: 20px;
     }
 
     pre {
       white-space: pre-wrap;
-      background: #1a1a1a;
+      background: #020617;
       padding: 20px;
       border-radius: 8px;
-      margin-top: 30px;
       line-height: 1.6;
+      font-size: 16px;
     }
 
     .error {
-      color: #ff6b6b;
-      white-space: pre-wrap;
-      margin-top: 30px;
+      color: #f87171;
     }
   </style>
 </head>
+
 <body>
+  <h1>Your Personalized Lyrics</h1>
+  <div id="output">Generating lyrics...</div>
 
-<h1>Your Personalized Lyrics</h1>
+  <script>
+    const params = new URLSearchParams(window.location.search);
 
-<div id="status">Generating your song…</div>
-<pre id="lyrics" style="display:none;"></pre>
-<div id="error" class="error" style="display:none;"></div>
+    const payload = {
+      songType: params.get("songType"),
 
-<script>
-  const params = new URLSearchParams(window.location.search);
-  const payload = Object.fromEntries(params.entries());
+      name: params.get("name"),
+      memory: params.get("memory"),
+      relationshipType: params.get("relationshipType"),
+      loveTraits: params.get("loveTraits"),
+      loveMessage: params.get("loveMessage"),
 
-  fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify(payload),
-  })
-    .then(res => res.json())
-    .then(data => {
-      document.getElementById("status").style.display = "none";
+      tributeName: params.get("tributeName"),
+      tributeRelationship: params.get("tributeRelationship"),
+      tributeReason: params.get("tributeReason"),
+      tributeTone: params.get("tributeTone"),
 
-      if (data.lyrics) {
-        const lyricsEl = document.getElementById("lyrics");
-        lyricsEl.textContent = data.lyrics;
-        lyricsEl.style.display = "block";
-      } else {
-        const errorEl = document.getElementById("error");
-        errorEl.textContent =
-          "ERROR FROM SERVER:\n\n" + JSON.stringify(data, null, 2);
-        errorEl.style.display = "block";
-      }
+      birthdayName: params.get("birthdayName"),
+      birthdayAge: params.get("birthdayAge"),
+      birthdayRelationship: params.get("birthdayRelationship"),
+      birthdayVibe: params.get("birthdayVibe"),
+      birthdayMemory: params.get("birthdayMemory")
+    };
+
+    fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload)
     })
-    .catch(err => {
-      document.getElementById("status").style.display = "none";
-      const errorEl = document.getElementById("error");
-      errorEl.textContent = "FETCH ERROR:\n\n" + err.toString();
-      errorEl.style.display = "block";
-    });
-</script>
-
+      .then(res => res.json())
+      .then(data => {
+        if (data.lyrics) {
+          document.getElementById("output").innerHTML =
+            `<pre>${data.lyrics}</pre>`;
+        } else {
+          document.getElementById("output").innerHTML =
+            `<div class="error">ERROR FROM SERVER:<br><pre>${JSON.stringify(data, null, 2)}</pre></div>`;
+        }
+      })
+      .catch(err => {
+        document.getElementById("output").innerHTML =
+          `<div class="error">FAILED: ${err}</div>`;
+      });
+  </script>
 </body>
 </html>

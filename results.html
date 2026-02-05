@@ -3,24 +3,31 @@
 <head>
   <meta charset="UTF-8" />
   <title>Your Personalized Lyrics</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     body {
-      background: #020617;
+      background: #0f172a;
       color: #e5e7eb;
       font-family: Arial, sans-serif;
+      margin: 0;
       padding: 40px;
     }
 
     h1 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    #status {
+      text-align: center;
+      font-style: italic;
       margin-bottom: 20px;
     }
 
     pre {
       white-space: pre-wrap;
       background: #020617;
-      padding: 20px;
+      padding: 25px;
       border-radius: 8px;
       line-height: 1.6;
       font-size: 16px;
@@ -28,57 +35,53 @@
 
     .error {
       color: #f87171;
+      white-space: pre-wrap;
     }
   </style>
 </head>
-
 <body>
+
   <h1>Your Personalized Lyrics</h1>
-  <div id="output">Generating lyrics...</div>
+  <div id="status">Generating lyrics…</div>
+  <pre id="lyrics"></pre>
 
   <script>
-    const params = new URLSearchParams(window.location.search);
+    const statusEl = document.getElementById("status");
+    const lyricsEl = document.getElementById("lyrics");
 
-    const payload = {
-      songType: params.get("songType"),
+    const stored = localStorage.getItem("lyricsFormData");
 
-      name: params.get("name"),
-      memory: params.get("memory"),
-      relationshipType: params.get("relationshipType"),
-      loveTraits: params.get("loveTraits"),
-      loveMessage: params.get("loveMessage"),
+    if (!stored) {
+      statusEl.textContent = "No song data found.";
+      return;
+    }
 
-      tributeName: params.get("tributeName"),
-      tributeRelationship: params.get("tributeRelationship"),
-      tributeReason: params.get("tributeReason"),
-      tributeTone: params.get("tributeTone"),
+    const payload = JSON.parse(stored);
 
-      birthdayName: params.get("birthdayName"),
-      birthdayAge: params.get("birthdayAge"),
-      birthdayRelationship: params.get("birthdayRelationship"),
-      birthdayVibe: params.get("birthdayVibe"),
-      birthdayMemory: params.get("birthdayMemory")
-    };
-
-    fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev/", {
+    fetch("https://patient-hat-3eee.mattfurman-2022.workers.dev", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: {
+        "Content-Type": "application/json"
+      },
       body: JSON.stringify(payload)
     })
       .then(res => res.json())
       .then(data => {
         if (data.lyrics) {
-          document.getElementById("output").innerHTML =
-            `<pre>${data.lyrics}</pre>`;
+          statusEl.textContent = "";
+          lyricsEl.textContent = data.lyrics;
         } else {
-          document.getElementById("output").innerHTML =
-            `<div class="error">ERROR FROM SERVER:<br><pre>${JSON.stringify(data, null, 2)}</pre></div>`;
+          statusEl.textContent = "ERROR FROM SERVER:";
+          lyricsEl.className = "error";
+          lyricsEl.textContent = JSON.stringify(data, null, 2);
         }
       })
       .catch(err => {
-        document.getElementById("output").innerHTML =
-          `<div class="error">FAILED: ${err}</div>`;
+        statusEl.textContent = "FAILED:";
+        lyricsEl.className = "error";
+        lyricsEl.textContent = err.toString();
       });
   </script>
+
 </body>
 </html>

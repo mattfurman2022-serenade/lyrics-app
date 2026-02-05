@@ -18,7 +18,7 @@
     }
 
     form {
-      max-width: 650px;
+      max-width: 700px;
       margin: 0 auto;
     }
 
@@ -68,22 +68,19 @@
     <option value="love">Love</option>
     <option value="birthday">Birthday</option>
     <option value="celebration">Celebration</option>
+    <option value="wedding">Wedding</option>
   </select>
 
   <!-- LOVE -->
   <div id="loveFields" class="section" style="display:none;">
     <label>Name</label>
     <input type="text" name="name" />
-
     <label>Relationship Type</label>
     <input type="text" name="relationshipType" />
-
     <label>What do you love most?</label>
     <textarea name="loveTraits"></textarea>
-
     <label>Special Memory</label>
     <textarea name="memory"></textarea>
-
     <label>Message of the song</label>
     <textarea name="loveMessage"></textarea>
   </div>
@@ -92,13 +89,10 @@
   <div id="birthdayFields" class="section" style="display:none;">
     <label>Name</label>
     <input type="text" name="birthdayName" />
-
     <label>Age</label>
     <input type="text" name="birthdayAge" />
-
     <label>Your Relationship</label>
     <input type="text" name="birthdayRelationship" />
-
     <label>Vibe</label>
     <select name="birthdayVibe">
       <option value="">Select one</option>
@@ -106,36 +100,52 @@
       <option value="sweet">Sweet</option>
       <option value="emotional">Emotional</option>
     </select>
-
     <label>Birthday Memory or Message</label>
     <textarea name="birthdayMemory"></textarea>
   </div>
 
-  <!-- CELEBRATION (REFINED) -->
+  <!-- CELEBRATION -->
   <div id="celebrationFields" class="section" style="display:none;">
     <label>Who or what is being celebrated?</label>
     <input type="text" name="celebrationSubject" />
-
-    <label>What is the occasion?</label>
+    <label>Occasion</label>
     <input type="text" name="celebrationOccasion" />
-
-    <label>Why does this moment matter?</label>
+    <label>Why does this matter?</label>
     <textarea name="celebrationReason"></textarea>
-
-    <label>Overall vibe</label>
+    <label>Vibe</label>
     <select name="celebrationVibe">
-      <option value="">Select one</option>
-      <option value="fun">Fun & playful</option>
-      <option value="proud">Proud & triumphant</option>
-      <option value="emotional">Emotional & meaningful</option>
-      <option value="hype">High-energy & hype</option>
+      <option value="fun">Fun</option>
+      <option value="proud">Proud</option>
+      <option value="emotional">Emotional</option>
+      <option value="hype">Hype</option>
+    </select>
+    <label>Details to include</label>
+    <textarea name="celebrationDetails"></textarea>
+    <label>Message to convey</label>
+    <textarea name="celebrationMessage"></textarea>
+  </div>
+
+  <!-- WEDDING -->
+  <div id="weddingFields" class="section" style="display:none;">
+    <label>Partner 1 Name</label>
+    <input type="text" name="weddingPartnerOne" />
+
+    <label>Partner 2 Name</label>
+    <input type="text" name="weddingPartnerTwo" />
+
+    <label>How did they meet?</label>
+    <textarea name="weddingStory"></textarea>
+
+    <label>Wedding vibe</label>
+    <select name="weddingVibe">
+      <option value="romantic">Romantic</option>
+      <option value="joyful">Joyful</option>
+      <option value="emotional">Emotional</option>
+      <option value="elegant">Elegant</option>
     </select>
 
-    <label>People, moments, or achievements to include</label>
-    <textarea name="celebrationDetails"></textarea>
-
-    <label>Optional message the song should convey</label>
-    <textarea name="celebrationMessage"></textarea>
+    <label>Message the song should convey</label>
+    <textarea name="weddingMessage"></textarea>
   </div>
 
   <button type="submit">Generate Lyrics</button>
@@ -143,30 +153,26 @@
 
 <script>
   const songType = document.getElementById("songType");
-  const love = document.getElementById("loveFields");
-  const birthday = document.getElementById("birthdayFields");
-  const celebration = document.getElementById("celebrationFields");
+  const sections = {
+    love: document.getElementById("loveFields"),
+    birthday: document.getElementById("birthdayFields"),
+    celebration: document.getElementById("celebrationFields"),
+    wedding: document.getElementById("weddingFields"),
+  };
 
   songType.addEventListener("change", () => {
-    love.style.display = "none";
-    birthday.style.display = "none";
-    celebration.style.display = "none";
-
-    if (songType.value === "love") love.style.display = "block";
-    if (songType.value === "birthday") birthday.style.display = "block";
-    if (songType.value === "celebration") celebration.style.display = "block";
+    Object.values(sections).forEach(s => s.style.display = "none");
+    if (sections[songType.value]) {
+      sections[songType.value].style.display = "block";
+    }
   });
 
   document.getElementById("songForm").addEventListener("submit", (e) => {
     e.preventDefault();
-
     const data = { songType: songType.value };
-    const fields = e.target.querySelectorAll("input, textarea, select");
-
-    fields.forEach(field => {
-      if (field.name) data[field.name] = field.value;
+    e.target.querySelectorAll("input, textarea, select").forEach(f => {
+      if (f.name) data[f.name] = f.value;
     });
-
     localStorage.setItem("lyricsFormData", JSON.stringify(data));
     window.location.href = "results.html";
   });

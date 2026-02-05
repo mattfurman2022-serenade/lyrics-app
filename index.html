@@ -3,231 +3,160 @@
 <head>
   <meta charset="UTF-8" />
   <title>Personalized Song Generator</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <style>
     body {
-      background: #0f172a;
+      background: #020617;
       color: #e5e7eb;
       font-family: Arial, sans-serif;
-      padding: 30px;
+      padding: 40px;
     }
 
     h1 {
-      margin-bottom: 20px;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      max-width: 600px;
+      margin: 0 auto;
     }
 
     label {
       display: block;
-      margin-top: 15px;
+      margin-top: 18px;
       font-weight: bold;
     }
 
-    input, textarea, select {
+    input, textarea, select, button {
       width: 100%;
+      margin-top: 6px;
       padding: 10px;
-      margin-top: 5px;
       border-radius: 6px;
       border: none;
     }
 
-    textarea {
-      min-height: 80px;
-    }
-
     button {
-      margin-top: 25px;
-      padding: 14px;
-      width: 100%;
+      margin-top: 30px;
       background: #6366f1;
       color: white;
-      border: none;
-      border-radius: 8px;
       font-size: 16px;
       cursor: pointer;
     }
 
     .section {
-      display: none;
       margin-top: 20px;
-      border-top: 1px solid #334155;
-      padding-top: 20px;
+      padding: 20px;
+      border-radius: 8px;
+      background: #0f172a;
     }
   </style>
 </head>
-
 <body>
 
-<h1>🎵 Personalized Song Generator</h1>
+<h1>Create Your Personalized Song</h1>
 
-<label>Song Type</label>
-<select id="songType">
-  <option value="">Select a style</option>
-  <option value="love">Love</option>
-  <option value="tribute">Tribute</option>
-  <option value="birthday">Birthday</option>
-  <option value="celebration">Celebration</option>
-</select>
+<form id="songForm">
 
-<!-- ================= LOVE ================= -->
-<div id="loveSection" class="section">
-  <label>Name</label>
-  <input id="loveName" />
-
-  <label>Relationship Type</label>
-  <select id="relationshipType">
-    <option>Partner</option>
-    <option>Crush</option>
-    <option>Spouse</option>
-    <option>Soulmate</option>
-    <option>Secret Love</option>
+  <label>Song Type</label>
+  <select id="songType" required>
+    <option value="">Select one</option>
+    <option value="love">Love</option>
+    <option value="birthday">Birthday</option>
+    <option value="celebration">Celebration</option>
   </select>
 
-  <label>What do you love most about them?</label>
-  <textarea id="loveTraits"></textarea>
+  <!-- LOVE -->
+  <div id="loveFields" class="section" style="display:none;">
+    <label>Name</label>
+    <input type="text" name="name" />
 
-  <label>Special Memory</label>
-  <textarea id="loveMemory"></textarea>
+    <label>Relationship Type</label>
+    <input type="text" name="relationshipType" />
 
-  <label>Message this song should convey</label>
-  <textarea id="loveMessage"></textarea>
-</div>
+    <label>What do you love most?</label>
+    <textarea name="loveTraits"></textarea>
 
-<!-- ================= TRIBUTE ================= -->
-<div id="tributeSection" class="section">
-  <label>Name</label>
-  <input id="tributeName" />
+    <label>Special Memory</label>
+    <textarea name="memory"></textarea>
 
-  <label>Relationship</label>
-  <input id="tributeRelationship" />
+    <label>Message of the song</label>
+    <textarea name="loveMessage"></textarea>
+  </div>
 
-  <label>Why are they important?</label>
-  <textarea id="tributeReason"></textarea>
+  <!-- BIRTHDAY -->
+  <div id="birthdayFields" class="section" style="display:none;">
+    <label>Name</label>
+    <input type="text" name="birthdayName" />
 
-  <label>Tone</label>
-  <select id="tributeTone">
-    <option>Emotional</option>
-    <option>Grateful</option>
-    <option>Respectful</option>
-    <option>Inspirational</option>
-  </select>
-</div>
+    <label>Age</label>
+    <input type="text" name="birthdayAge" />
 
-<!-- ================= BIRTHDAY ================= -->
-<div id="birthdaySection" class="section">
-  <label>Name</label>
-  <input id="birthdayName" />
+    <label>Your Relationship</label>
+    <input type="text" name="birthdayRelationship" />
 
-  <label>Age</label>
-  <input id="birthdayAge" />
+    <label>Vibe</label>
+    <select name="birthdayVibe">
+      <option value="">Select one</option>
+      <option value="funny">Funny</option>
+      <option value="sweet">Sweet</option>
+      <option value="emotional">Emotional</option>
+    </select>
 
-  <label>Relationship</label>
-  <input id="birthdayRelationship" />
+    <label>Birthday Memory or Message</label>
+    <textarea name="birthdayMemory"></textarea>
+  </div>
 
-  <label>Vibe</label>
-  <select id="birthdayVibe">
-    <option>Fun</option>
-    <option>Playful</option>
-    <option>Emotional</option>
-    <option>Epic</option>
-  </select>
+  <!-- CELEBRATION -->
+  <div id="celebrationFields" class="section" style="display:none;">
+    <label>Who are we celebrating?</label>
+    <input type="text" name="celebrationSubject" />
 
-  <label>Memory or Message</label>
-  <textarea id="birthdayMemory"></textarea>
-</div>
+    <label>Occasion</label>
+    <input type="text" name="celebrationOccasion" />
 
-<!-- ================= CELEBRATION ================= -->
-<div id="celebrationSection" class="section">
-  <label>Who or what is being celebrated?</label>
-  <input id="celebrationSubject" />
+    <label>Why is this important?</label>
+    <textarea name="celebrationReason"></textarea>
 
-  <label>Occasion</label>
-  <input id="celebrationOccasion" />
+    <label>Vibe</label>
+    <input type="text" name="celebrationVibe" />
 
-  <label>Why is this important?</label>
-  <textarea id="celebrationReason"></textarea>
+    <label>Extra details</label>
+    <textarea name="celebrationDetails"></textarea>
+  </div>
 
-  <label>Vibe</label>
-  <select id="celebrationVibe">
-    <option>Energetic</option>
-    <option>Epic</option>
-    <option>Proud</option>
-    <option>Joyful</option>
-  </select>
-
-  <label>Details or message to include</label>
-  <textarea id="celebrationDetails"></textarea>
-</div>
-
-<button onclick="generateLyrics()">Generate Lyrics</button>
+  <button type="submit">Generate Lyrics</button>
+</form>
 
 <script>
-const songType = document.getElementById("songType");
+  const songType = document.getElementById("songType");
+  const love = document.getElementById("loveFields");
+  const birthday = document.getElementById("birthdayFields");
+  const celebration = document.getElementById("celebrationFields");
 
-const sections = {
-  love: document.getElementById("loveSection"),
-  tribute: document.getElementById("tributeSection"),
-  birthday: document.getElementById("birthdaySection"),
-  celebration: document.getElementById("celebrationSection")
-};
+  songType.addEventListener("change", () => {
+    love.style.display = "none";
+    birthday.style.display = "none";
+    celebration.style.display = "none";
 
-songType.addEventListener("change", () => {
-  Object.values(sections).forEach(s => s.style.display = "none");
-  if (sections[songType.value]) {
-    sections[songType.value].style.display = "block";
-  }
-});
+    if (songType.value === "love") love.style.display = "block";
+    if (songType.value === "birthday") birthday.style.display = "block";
+    if (songType.value === "celebration") celebration.style.display = "block";
+  });
 
-async function generateLyrics() {
-  const type = songType.value;
-  let payload = { songType: type };
+  document.getElementById("songForm").addEventListener("submit", (e) => {
+    e.preventDefault();
 
-  if (type === "love") {
-    payload = {
-      songType: "love",
-      name: loveName.value,
-      relationshipType: relationshipType.value,
-      loveTraits: loveTraits.value,
-      memory: loveMemory.value,
-      loveMessage: loveMessage.value
-    };
-  }
+    const data = { songType: songType.value };
+    const fields = e.target.querySelectorAll("input, textarea, select");
 
-  if (type === "tribute") {
-    payload = {
-      songType: "tribute",
-      tributeName: tributeName.value,
-      tributeRelationship: tributeRelationship.value,
-      tributeReason: tributeReason.value,
-      tributeTone: tributeTone.value
-    };
-  }
+    fields.forEach(field => {
+      if (field.name) data[field.name] = field.value;
+    });
 
-  if (type === "birthday") {
-    payload = {
-      songType: "birthday",
-      birthdayName: birthdayName.value,
-      birthdayAge: birthdayAge.value,
-      birthdayRelationship: birthdayRelationship.value,
-      birthdayVibe: birthdayVibe.value,
-      birthdayMemory: birthdayMemory.value
-    };
-  }
-
-  if (type === "celebration") {
-    payload = {
-      songType: "celebration",
-      celebrationSubject: celebrationSubject.value,
-      celebrationOccasion: celebrationOccasion.value,
-      celebrationReason: celebrationReason.value,
-      celebrationVibe: celebrationVibe.value,
-      celebrationDetails: celebrationDetails.value
-    };
-  }
-
-  localStorage.setItem("lyricsRequest", JSON.stringify(payload));
-  window.location.href = "results.html";
-}
+    localStorage.setItem("lyricsFormData", JSON.stringify(data));
+    window.location.href = "results.html";
+  });
 </script>
 
 </body>

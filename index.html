@@ -18,7 +18,7 @@
     }
 
     form {
-      max-width: 600px;
+      max-width: 650px;
       margin: 0 auto;
     }
 
@@ -34,6 +34,10 @@
       padding: 10px;
       border-radius: 6px;
       border: none;
+    }
+
+    textarea {
+      min-height: 90px;
     }
 
     button {
@@ -107,22 +111,31 @@
     <textarea name="birthdayMemory"></textarea>
   </div>
 
-  <!-- CELEBRATION -->
+  <!-- CELEBRATION (REFINED) -->
   <div id="celebrationFields" class="section" style="display:none;">
-    <label>Who are we celebrating?</label>
+    <label>Who or what is being celebrated?</label>
     <input type="text" name="celebrationSubject" />
 
-    <label>Occasion</label>
+    <label>What is the occasion?</label>
     <input type="text" name="celebrationOccasion" />
 
-    <label>Why is this important?</label>
+    <label>Why does this moment matter?</label>
     <textarea name="celebrationReason"></textarea>
 
-    <label>Vibe</label>
-    <input type="text" name="celebrationVibe" />
+    <label>Overall vibe</label>
+    <select name="celebrationVibe">
+      <option value="">Select one</option>
+      <option value="fun">Fun & playful</option>
+      <option value="proud">Proud & triumphant</option>
+      <option value="emotional">Emotional & meaningful</option>
+      <option value="hype">High-energy & hype</option>
+    </select>
 
-    <label>Extra details</label>
+    <label>People, moments, or achievements to include</label>
     <textarea name="celebrationDetails"></textarea>
+
+    <label>Optional message the song should convey</label>
+    <textarea name="celebrationMessage"></textarea>
   </div>
 
   <button type="submit">Generate Lyrics</button>

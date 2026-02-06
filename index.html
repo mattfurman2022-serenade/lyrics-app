@@ -69,6 +69,7 @@
     <option value="birthday">Birthday</option>
     <option value="celebration">Celebration</option>
     <option value="wedding">Wedding</option>
+    <option value="motivational">Motivational</option>
   </select>
 
   <!-- LOVE -->
@@ -129,13 +130,10 @@
   <div id="weddingFields" class="section" style="display:none;">
     <label>Partner 1 Name</label>
     <input type="text" name="weddingPartnerOne" />
-
     <label>Partner 2 Name</label>
     <input type="text" name="weddingPartnerTwo" />
-
     <label>How did they meet?</label>
     <textarea name="weddingStory"></textarea>
-
     <label>Wedding vibe</label>
     <select name="weddingVibe">
       <option value="romantic">Romantic</option>
@@ -143,9 +141,31 @@
       <option value="emotional">Emotional</option>
       <option value="elegant">Elegant</option>
     </select>
-
     <label>Message the song should convey</label>
     <textarea name="weddingMessage"></textarea>
+  </div>
+
+  <!-- MOTIVATIONAL -->
+  <div id="motivationalFields" class="section" style="display:none;">
+    <label>Who is this song for?</label>
+    <input type="text" name="motivationalName" />
+
+    <label>What goal or dream are they pursuing?</label>
+    <textarea name="motivationalGoal"></textarea>
+
+    <label>What challenges have they faced?</label>
+    <textarea name="motivationalStruggle"></textarea>
+
+    <label>Song vibe</label>
+    <select name="motivationalVibe">
+      <option value="uplifting">Uplifting</option>
+      <option value="powerful">Powerful</option>
+      <option value="reflective">Reflective</option>
+      <option value="anthem">Anthem</option>
+    </select>
+
+    <label>Core message to emphasize</label>
+    <textarea name="motivationalMessage"></textarea>
   </div>
 
   <button type="submit">Generate Lyrics</button>
@@ -153,11 +173,13 @@
 
 <script>
   const songType = document.getElementById("songType");
+
   const sections = {
     love: document.getElementById("loveFields"),
     birthday: document.getElementById("birthdayFields"),
     celebration: document.getElementById("celebrationFields"),
     wedding: document.getElementById("weddingFields"),
+    motivational: document.getElementById("motivationalFields"),
   };
 
   songType.addEventListener("change", () => {

@@ -70,6 +70,7 @@
     <option value="celebration">Celebration</option>
     <option value="wedding">Wedding</option>
     <option value="motivational">Motivational</option>
+    <option value="heartbreak">Heartbreak</option>
   </select>
 
   <!-- LOVE -->
@@ -149,13 +150,10 @@
   <div id="motivationalFields" class="section" style="display:none;">
     <label>Who is this song for?</label>
     <input type="text" name="motivationalName" />
-
     <label>What goal or dream are they pursuing?</label>
     <textarea name="motivationalGoal"></textarea>
-
     <label>What challenges have they faced?</label>
     <textarea name="motivationalStruggle"></textarea>
-
     <label>Song vibe</label>
     <select name="motivationalVibe">
       <option value="uplifting">Uplifting</option>
@@ -163,9 +161,40 @@
       <option value="reflective">Reflective</option>
       <option value="anthem">Anthem</option>
     </select>
-
     <label>Core message to emphasize</label>
     <textarea name="motivationalMessage"></textarea>
+  </div>
+
+  <!-- HEARTBREAK -->
+  <div id="heartbreakFields" class="section" style="display:none;">
+    <label>Name (optional)</label>
+    <input type="text" name="heartbreakName" />
+
+    <label>Who or what was lost?</label>
+    <input type="text" name="heartbreakSubject" />
+
+    <label>What caused the heartbreak?</label>
+    <textarea name="heartbreakCause"></textarea>
+
+    <label>Strongest emotion right now</label>
+    <select name="heartbreakEmotion">
+      <option value="sadness">Sadness</option>
+      <option value="longing">Longing</option>
+      <option value="regret">Regret</option>
+      <option value="anger">Anger</option>
+      <option value="acceptance">Acceptance</option>
+    </select>
+
+    <label>Memory, moment, or final words</label>
+    <textarea name="heartbreakMemory"></textarea>
+
+    <label>How should the song end?</label>
+    <select name="heartbreakEnding">
+      <option value="raw">Raw & unresolved</option>
+      <option value="quiet">Quiet & reflective</option>
+      <option value="healing">Healing & hopeful</option>
+      <option value="empowered">Empowered & moving on</option>
+    </select>
   </div>
 
   <button type="submit">Generate Lyrics</button>
@@ -180,6 +209,7 @@
     celebration: document.getElementById("celebrationFields"),
     wedding: document.getElementById("weddingFields"),
     motivational: document.getElementById("motivationalFields"),
+    heartbreak: document.getElementById("heartbreakFields"),
   };
 
   songType.addEventListener("change", () => {
